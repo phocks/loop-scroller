@@ -14,8 +14,6 @@
   let height = 0;
   let midPoint = 0;
 
-  let lastScrollCall = performance.now();
-
   $: midPoint = height / 2;
   $: drift = midPoint - containerScrollY;
 
@@ -27,10 +25,6 @@
   });
 
   function handleScroll(event: Event) {
-    const now = performance.now();
-    console.log(`Time since last scroll event: ${now - lastScrollCall}ms`);
-    lastScrollCall = now;
-
     containerScrollY = container.scrollTop;
 
     if (containerScrollY < 200) {
@@ -60,8 +54,8 @@
     background-color: #f0f0f0;
     height: 100dvh;
     overflow: scroll;
-    /* -ms-overflow-style: none;
-    scrollbar-width: none; */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .container::-webkit-scrollbar {
