@@ -10,12 +10,14 @@
   let components = Array(times).fill(component);
   let containerScrollY = 0;
   let drift = 0;
+  let singleScrollPoint = 0;
 
   let height = 0;
   let midPoint = 0;
 
   $: midPoint = height / 2;
   $: drift = midPoint - containerScrollY;
+  $: singleScrollPoint = drift % (height / times);
 
   let container: HTMLDivElement;
 
@@ -35,7 +37,7 @@
   }
 
   function resetPosition(midPoint: number, drift: number) {
-    container.scrollTo(0, midPoint - (drift % (height / times)));
+    container.scrollTo(0, midPoint - singleScrollPoint);
   }
 
   const debouncedResetPosition = debounce(resetPosition, DEBOUNCE_TIME);
@@ -45,7 +47,7 @@
 
 <div bind:this={container} class="container" on:scroll={handleScroll}>
   {#each components as Component}
-    <svelte:component this={Component} />
+    <svelte:component this={Component} {singleScrollPoint} />
   {/each}
 </div>
 
